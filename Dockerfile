@@ -6,7 +6,7 @@ RUN apt-get install -y apt-utils
 RUN apt-get install -y openjdk-8-jre
 RUN apt-get install -y python-psycopg2
 RUN apt-get install -y libmagickwand-dev
-RUN apt-get install -y ghostscript
+#RUN apt-get install -y ghostscript
 RUN apt-get install -y libjpeg-turbo-progs
 RUN apt-get install -y optipng
 RUN apt-get install -y net-tools
@@ -29,6 +29,7 @@ COPY . /app/
 # create cubane folder
 WORKDIR /
 RUN git clone https://github.com/cubaneorg/cubane.git
+WORKDIR /cubane
 RUN git checkout develop
 
 # switch working folder
