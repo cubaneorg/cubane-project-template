@@ -39,4 +39,6 @@ WORKDIR /app
 RUN pip install -r /cubane/cubane/requirements/dev.txt
 RUN pip install -r /app/requirements.txt
 
+EXPOSE 5000
+
 CMD ["python", "manage.py", "runserver", "0.0.0.0:5000"]
