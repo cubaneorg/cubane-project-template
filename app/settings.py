@@ -46,7 +46,6 @@ env.add_apps([
     'cubane.media',
     'cubane.medialoader',
     'cubane.enquiry',
-    'cubane.dbmigrate',
     'cubane.cssreset',
     'cubane.svgicons',
     'cubane.fonts',
