@@ -36,6 +36,23 @@ DATABASES = {
 
 
 #
+# Migrations
+#
+MIGRATION_MODULES = {
+    'cubane': 'app.migrations.cubane_migrations',
+    'media': 'app.migrations.media_migrations',
+    'cms': 'app.migrations.cms_migrations',
+    'backend': 'app.migrations.backend_migrations'
+}
+
+
+#
+# Media Path
+#
+MEDIA_ROOT = '/app/media'
+
+
+#
 # Apps
 #
 env.add_apps([
