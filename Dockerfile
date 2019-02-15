@@ -36,8 +36,13 @@ RUN git checkout develop
 WORKDIR /app
 
 # install python dependencies
+RUN pip install --upgrade pip
 RUN pip install -r /cubane/cubane/requirements/dev.txt
 RUN pip install -r /app/requirements.txt
+
+# run database migrations
+COPY entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
 
 EXPOSE 5000
 
