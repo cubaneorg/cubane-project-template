@@ -1,29 +1,37 @@
 version: '3'
-
 services:
   db:
     image: postgres
-  web:
-    build: .
-    command: python manage.py runserver 0.0.0.0:8000
+    restart: always
     volumes:
-      - .:/app
+      - ./postgres:/var/lib/postgresql/data
+  web:
+    build: ./project
+    command: 'python manage.py runserver 0.0.0.0:8000'
+    volumes:
+      - './project:/app'
+      - './public:/app/public'
+    environment:
+      PGDATA: /tmp
     ports:
-      - "8000:8000"
+      - '8000:8000'
+    restart: always
     depends_on:
       - db
-    entrypoint: /entrypoint.sh
-    environment:
-      - DEV_MODE=1
-      - PYTHONUNBUFFERED=1
-      - DOMAIN_NAME=
-      - ADMIN_EMAIL=
-      - SECRET_KEY=
-      - DATABASE_NAME=postgres
-      - DATABASE_USER=postgres
-      - DATABASE_PASS=
-      - DATABASE_HOST=
-      - DATABASE_PORT=5432
-      - CAPTCHA_SITE_KEY=
-      - CAPTCHA_SECRET_KEY=
-      - CUBANE_GOOGLE_MAP_API_KEY=
+    env_file:
+      - dev.env
+  unicorn:
+    build: ./project
+    command: /bin/bash /app/start.sh
+    volumes:
+      - './project:/app'
+      - './public:/app/public'
+    ports:
+      - '5000:5000'
+      - '587:587'
+    restart: always
+    depends_on:
+      - db
+    env_file:
+      - dev.env
+      - dev-wsgi.env

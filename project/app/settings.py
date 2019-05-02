@@ -1,6 +1,7 @@
 # coding=UTF-8
 from __future__ import unicode_literals
 from cubane.settings import default_env
+import dj_database_url
 import os
 
 
@@ -23,33 +24,35 @@ ROOT_URLCONF = 'app.urls'
 #
 # Database
 #
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': os.environ.get('DATABASE_NAME', ''),
-        'USER': os.environ.get('DATABASE_USER', ''),
-        'PASSWORD': os.environ.get('DATABASE_PASS', ''),
-        'HOST': os.environ.get('DATABASE_HOST', ''),
-        'PORT': os.environ.get('DATABASE_PORT', ''),
+DATABASE_URL = os.environ.get('DATABASE_URL')
+if DATABASE_URL:
+    DATABASES = {
+        'default': dj_database_url.config(default=DATABASE_URL)
     }
-}
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': os.environ.get('POSTGRES_DB', ''),
+            'USER': os.environ.get('POSTGRES_USER', ''),
+            'PASSWORD': os.environ.get('POSTGRES_PASSWORD', ''),
+            'HOST':  os.environ.get('POSTGRES_HOST', 'localhost'),
+            'PORT': os.environ.get('POSTGRES_PORT', '5432'),
+        }
+    }
 
 
 #
-# Migrations
+# Media/Static Paths
 #
-MIGRATION_MODULES = {
-    'cubane': 'app.migrations.cubane_migrations',
-    'media': 'app.migrations.media_migrations',
-    'cms': 'app.migrations.cms_migrations',
-    'backend': 'app.migrations.backend_migrations'
-}
-
-
-#
-# Media Path
-#
-MEDIA_ROOT = '/app/media'
+PUBLIC_HTML_ROOT = '/app/public'
+STATICFILES_DIRS = (
+    '/app/app/static',
+)
+MEDIA_ROOT = '/app/public/media'
+STATIC_ROOT = '/app/public/static'
+CUBANE_FONT_ROOT = '/app/public/media/fonts'
+PREPEND_WWW = False
 
 
 #

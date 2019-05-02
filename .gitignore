@@ -37,3 +37,5 @@ Thumbs.db
 app/media/
 /private/
 log/
+public/
+postgres/
